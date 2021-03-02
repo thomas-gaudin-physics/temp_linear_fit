@@ -1,0 +1,59 @@
+#Created on Mon Mar  1 23:05:02 2021
+
+#@author: Thomas Gaudin
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+filename = 'baseline_temperature.csv'
+
+with open(filename, 'rt') as f:
+    baseline_data = pd.read_csv(f, header = None)
+    
+time = baseline_data[0]
+temperature = baseline_data[1]
+
+linear_model = np.polyfit(time, temperature, 1)
+linear_model_fn = np.poly1d(linear_model)
+x_s=np.arange(0, 1210)
+slope = linear_model[0]
+y_intercept = linear_model[1]
+
+print(slope, y_intercept)
+
+fig, ax = plt.subplots()
+
+ax.scatter(time, temperature, label="Baseline Data")
+ax.plot(x_s,linear_model_fn(x_s),color="green", label="Linear Fit: y = 0.000801x + 23.703")
+ax.set_title("Baseline Temperature Increase")
+ax.set_xlabel("Time (s)")
+ax.set_ylabel("Temperature (Degrees Celsius) ")
+ax.legend()
+
+plt.show()
+
+FileName = 'temperature_increase.csv'
+
+with open(FileName, 'rt') as f:
+    temp_data = pd.read_csv(f, header = None)
+    
+Time = temp_data[0]
+Temp = temp_data[1]
+
+Linear_Model = np.polyfit(Time, Temp, 1)
+Linear_Model_Fn = np.poly1d(Linear_Model)
+X_S = np.arange(0, 1210)
+Slope = Linear_Model[0]
+Y_Intercept = Linear_Model[1]
+
+print(Slope, Y_Intercept)
+
+ax.scatter(Time, Temp, label="Temperature Data")
+ax.plot(X_S, Linear_Model_Fn(X_S), color="red", label="Linear Fit: y = 0.00229x + 24.209")
+ax.set_title("Temperature Increase")
+ax.set_xlabel("Time (S)")
+ax.set_ylabel("Temperature (Degrees Celcius)")
+ax.legend()
+
+plt.show()
